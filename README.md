@@ -6,9 +6,9 @@
 <br />
 <p align="center">
   <a href="https://github.com/xyr11/iskhubslow">
-    <img src="https://pbs.twimg.com/profile_images/1364194963504852994/dyZu1ojE_400x400.png" alt="@IsKHubSlow profile picture" title="@IsKHubSlow profile picture" width="120" height="120" style="border-radius:50%">
+    <img src="https://pbs.twimg.com/profile_images/1367016062143721475/h9Ph5OWl_400x400.png" alt="@IsKHubSlow profile picture" title="@IsKHubSlow profile picture" width="120" height="120" style="border-radius:50%">
   </a>
-  <h3 align="center"><a href="https://twitter.com/IsKHubSlow/" style="color:inherit">IsKHubSlow</a></h3>
+  <h3 align="center"><a href="https://twitter.com/IsKHubSlow/" style="color:inherit">IsKHubSlow<sup>beta</sup></a></h3>
   <p align="center">
     A bot that checks if KHub is slow and tweets it.
     <br />
@@ -16,7 +16,7 @@
     ·
     <a href="https://github.com/xyr11/iskhubslow/issues">Report Bug</a>
     ·
-    <a href="https://github.com/xyr11/iskhubslow/issues">Request Feature</a>
+    <a href="https://iskhubslow.xyr11.repl.co/">Website (beta)</a>
   </p>
 </p>
 <br />
@@ -50,8 +50,8 @@ IsKHubSlow is a bot that checks if KHub is slow based on its response time and t
 
 ## Planned Features
 For starters, here's what I *plan* to do:
-- Request data every minute from an API that checks every 5 minutes
-- Determines if current response time is above "average" (the normal value) using data
+- Request data from an API that checks for response times
+- Determines if current response time is slow using historical data
 - Condense information and tweets the results
 - I also tweet routinely every 4 hours about current statuses of KHub
 
@@ -59,17 +59,19 @@ For starters, here's what I *plan* to do:
 + Node.js
 + Twitter API v2
 + UptimeRobot API
-+ MongoDB database
++  Replit database
 
 # Getting Started
 
 ## Prerequisites
-+ Twitter Developer account: if you don’t have one already, you can [apply for one](https://developer.twitter.com/en/apply-for-access.html).
++ Twitter Developer account (you can apply for one [here](https://developer.twitter.com/en/apply-for-access.html))
 + A Twitter developer app, which can be created in your Twitter developer account.
 + "Read and Write" permissions to your app (Project Settings > App permissions)
 + Your `API key`, `API key secret`, `Access token`, and `Access token secret` from your app in the [Twitter developer portal](https://developer.twitter.com/en/docs/developer-portal/overview)
 + [Node.js](https://nodejs.org/en/download/)
-+ npm (This is automatically installed with Node.)
++ npm (This is automatically installed with Node)
+
+Note: I'm temporarily using Replit's database for the storage of the bot, so the code only works in a Replit environment.
 
 <details id="twitter-bot-instructions">
   <summary>Click for detailed instructions relating to all things Twitter bot account related</summary>
@@ -88,7 +90,9 @@ For starters, here's what I *plan* to do:
 </details>
 
 ## Installation
+I'm temporarily using Replit's database for the storage of the bot, so the code only works in a Replit environment. An installation guide will be available after I switch for a better database
 
+<!--
 1. Clone the repository 
    ```
    git clone https://github.com/xyr11/iskhubslow
@@ -115,15 +119,17 @@ For starters, here's what I *plan* to do:
    ```
    npm start
    ```
+-->
 
 # Development status
 Status | Description
 :---: | ---
 ✅ | Start the project, figuring out a plan on how to do it, pick essential modules
-🟡 | Build system that receives data, stores in database, tweets in certain times
-🟡 | How to figure out if the response time is above "average", condense the results, error mitigation, automation system
-❌ | Beta period, run the code, debug if there are any errors, ask for feedback, repeat
-❌ | v1 launch, replit hosting
+✅ | Build system that receives data, stores in database, tweets in certain times
+✅ | How to figure out if the response time is above "average", condense the results, error mitigation, automation system
+🟡 | Beta period, run the code, debug if there are any errors, ask for feedback, repeat
+❌ | v1 launch, replit hosting, better database system
+❌ | Version that can be run locally anywhere
 
 # Author
 Xyrus Kurt Roldan
@@ -137,4 +143,4 @@ Distributed under the MIT License. See [`LICENSE`](https://github.com/xyr11/xtri
 # Acknowledgements
 + [Replit](https://repl.it) for the bot hosting
 + [UptimeRobot API](https://uptimerobot.com/api/) for data fetching
-+ [@IsKHubDown](https://twitter.com/IsKHubDown "@IsKHubDown") for the original idea
++ [@IsKHubDown](https://twitter.com/IsKHubDown) for the original idea
