@@ -1,6 +1,6 @@
 {
   "name": "iskhubslow",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "IsKHubSlow is an open-source bot that checks if KHub is slow based on its response time and tweets it.",
   "main": "index.js",
   "dependencies": {
