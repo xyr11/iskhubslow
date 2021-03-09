@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>IsKHubSlow Status Page</title>
+		<meta name="description" content="The official home page of @IsKHubSlow, a bot that checks if KHub is slow and tweets it.">
+		<meta name="author" content="Xyrus Kurt Roldan">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta property="og:title" content="IsKHubSlow | Home">
+		<meta property="og:description" content="The official home page of @IsKHubSlow, a bot that checks if KHub is slow and tweets it.">
+		<meta property="og:image" content="https://pbs.twimg.com/profile_images/1367016062143721475/h9Ph5OWl_400x400.png">
+		<meta name="twitter:card" content="summary" />
+		<style>
+		
+			/* Color schemes */
+			:root {
+				--body-bg: #ffffff;
+				--body-color: #474747;
+        --selectbg-color: rgba(26, 130, 206, 0.8);
+        --select-color: white;
+				--heading-color: #000000;
+				--link-color: #1177d1;
+        --border-color: #ddd;
+        --th-color: #f8fafc;
+			}
+			@media (prefers-color-scheme: dark) {
+				:root {
+					--body-bg: #181a1d;
+					--body-color: #cac2c2;
+          --selectbg-color: rgba(93, 106, 117, 0.8);
+          --select-color: #b2b2b2;
+					--heading-color: #fff;
+					--link-color: #8ab3fd;
+          --border-color: #5a5656;
+          --th-color: #2c2d2f;
+				}
+			}
+
+			::selection {
+				background-color: var(--selectbg-color);
+				color: var(--select-color);
+			}
+
+			/* General stuff */
+			html {
+				font-family: Arial, sans-serif;
+				scroll-margin: 12px 0 0 0;
+				background-color: var(--body-bg);
+				color: var(--body-color);
+			}
+
+      * {
+        transition: background-color .4s, color .4s;
+      }
+
+			/* Headings */
+			h1, h2 {
+				font-family: Roboto, Arial, sans-serif;
+				color: var(--heading-color);
+				font-weight: 300;
+			}
+			h1 {
+				margin-bottom: 0;
+			}
+      h2 {
+        margin-bottom: .3em;
+      }
+
+      p {
+        margin-top: .3em;
+      }
+
+      /* table */
+      table {
+        border-collapse: collapse;
+        border-spacing: 0;
+      }
+      table td, table th {
+        border: 1px solid var(--border-color);
+        padding: 8px;
+      }
+      table th {
+        background: var(--th-color);
+      }
+			
+      sup, sub {
+        font-size: .7em;
+      }
+
+      /*  List */
+      ul {
+        margin: 0;
+        padding-left: 25px;
+      }
+
+      li {
+        line-height: 1.6em;
+      }
+
+      /* Code */
+      code {
+        padding: 2px 4px;
+        font-size: 90%;
+        color: #c0341d;
+        background-color: #fcefed;
+        border-radius: 3px;
+        font-family: "Menlo", "Liberation Mono", "Consolas", "DejaVu Sans Mono", "Ubuntu Mono", "Courier New", "andale mono", "lucida console", monospace;
+        white-space: pre-wrap;
+        word-wrap: normal;
+      }
+
+			/* Links */
+			a {
+				color: var(--link-color); 
+				text-decoration: none;
+			}
+
+			a:hover, a:focus {
+				text-decoration: underline;
+			}
+
+			a.def {
+				color: inherit;
+			}
+
+			/* Shields */
+			.shields a {
+				text-decoration: none;
+			}
+
+			/* Bot status */
+			.green-dot {
+				width: 1.5em;
+				height: 1.5em;
+				margin-right: 4px;
+			}
+			.green-dot circle.bg {
+				position: relative;
+				z-index: -1;
+				float: left;
+				animation: greendot-bg 2s ease infinite;
+			}
+			@keyframes greendot-bg {
+				0% { r: 25%; opacity: 1; }
+				80% { r: 50%; opacity: 0; }
+				100% { r: 50%; opacity: 0; }
+			}
+
+			/* Twitter timeline embed */
+			.twt {
+				text-align: center;
+				margin-left: calc(calc(100% - 500px) / 2);
+				margin-right: calc(calc(100% - 500px) / 2);
+				margin-top: .5em;
+				width: 100%;
+				max-width: 500px;
+			}
+			.twt iframe {
+				border: 1px solid rgba(15,70,100,.12) !important;
+				border-radius: 4px;
+			}
+			@media screen and (max-width: 520px) {
+				.twt {
+					margin-left: 0;
+					margin-right: 0;
+					max-width: 100%;
+				}
+			}
+			
+			/* Footer */
+			footer {
+				font-size: 0.75em;
+				margin: 2.5em 0 0 0;
+				display: flex;
+			}
+
+      footer p {
+        margin-bottom: 0;
+      }
+
+			.right {
+				text-align: right;
+				margin-left: auto
+			}
+
+			@media screen and (max-width: 480px) {
+				footer {
+					display: block;
+				}
+				.right {
+					text-align: left;
+				}
+			}
+
+      /* desktop version */
+      @media screen and (min-width: 800px) {
+        body {
+          margin: 1em;
+          display: grid;
+          grid-template-columns: 2fr 1fr;
+          grid-gap: 0;
+        }
+        header {
+          grid-column: 1 / 3;
+        }
+        header h1 {
+          margin-top: .2em;
+        }
+        main {
+          grid-column: 1 / 2;
+        }
+        aside {
+          grid-column: 2 / 3;
+          margin-left: 1em;
+        }
+        aside .twt {
+          margin-left: 0;
+          margin-right: 0;
+        }
+        footer {
+          grid-column: 1 / 3;
+        }
+      }
+		</style>
+	</head>
+	<body>
+		<header>
+			<h1><a href="https://twitter.com/IsKHubSlow/" style="color:inherit">IsKHubSlow<sup>Beta</sup></a></h1>
+			<p>A bot that checks if KHub is slow and tweets it.</p>
+			<p class="shields">
+				<a href="https://github.com/xyr11/iskhubslow/">
+					<img src="https://img.shields.io/github/license/xyr11/iskhubslow?color=blue&style=flat-square" alt="Project license">
+				</a>
+				<img src="https://img.shields.io/uptimerobot/ratio/7/m787049497-77105a43774c3d08e2afb952?label=bot%20uptime&style=flat-square" alt="Bot uptime ratio">
+				<a href="https://twitter.com/IsKHubDown">
+					<img src="https://img.shields.io/twitter/follow/IsKHubSlow?color=blue&style=flat-square" alt="Twitter account">
+				</a>
+			</p>
+      <!-- Bot status -->
+      <p style="display: flex; align-items: center; margin-bottom: 0">
+        <span style="display: flex;">
+          <svg class="green-dot">
+            <circle cx="50%" cy="50%" r="25%" fill="#54c147"/>
+            <circle class="bg" cx="50%" cy="50%" r="25%" fill="#54c147"/>
+            🟢
+          </svg>
+        </span>
+        <span>Bot status: <b style="color: #54c147">ONLINE</b></span>
+      </p>
+		</header>
+
+		<main>
+      <div>
+				<h1>KHub Status</h1>
+        <p>coming soon!</p>
+			</div>
+			<h1>About the Project</h1>
+			<p>IsKHubSlow is a bot that checks if KHub is slow based on its response time and tweets it, inspired by the idea of <a href="https://twitter.com/IsKHubDown" title="@IsKHubDown">@IsKHubDown</a> on Twitter. Open source on <a href="https://github.com/xyr11/iskhubslow/tree/beta">GitHub</a>! (Not affiliated to KHub or PSHS.)</p>
+      <h2>Features</h2>
+      <ul>
+      <li>Requests data from an API that checks for response times</li>
+      <li>Determines if current response time is slow using historical data and statistics</li>
+      <li>Condense information and tweets the results</li>
+      <!-- <li>I also tweet routinely every 4 hours about current statuses of KHub</li> -->
+      </ul>
+      <h2>Built With</h2>
+        <ul>
+        <li>Node.js</li>
+        <li>Twitter API v2</li>
+        <li>UptimeRobot API</li>
+        <li>Replit database</li>
+      </ul>
+      <h2>Development status</h2>
+      <table>
+        <tr>
+          <th style="text-align:center">Status</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td style="text-align:center">✅</td>
+          <td>Start the project, figuring out a plan on how to do it, pick essential modules</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">✅</td>
+          <td>Build system that receives data, stores in database, tweets in certain times</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">✅</td>
+          <td>How to figure out if the response time is above "average", condense the results, error mitigation, automation system</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">🟡</td>
+          <td>Beta period, run the code, debug if there are any errors, ask for feedback, repeat</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">❌</td>
+          <td>v1 launch, replit hosting, better database system</td>
+        </tr>
+        <tr>
+          <td style="text-align:center">❌</td>
+          <td>Version that can be run locally anywhere</td>
+        </tr>
+      </table>
+      <h2>Changelogs <sub>beta 0.2</sub> </h2>
+      <ul>
+        <li>Fixed bug that wrongly placed <code>newData[i]</code> rather than <code>newData[0]</code> and other variable declaration problems that I didn't review much because I'm trying to speedrun finishing Beta 0.1</li>
+        <li>More robust code for determining if KHub is 'slow' by outliers and a bunch of statistics-related terms nobody cares about</li>
+        <li>An insane amount of brain wracking and code editing for the part that deletes outliers when it detects that the current response time is too small and far away (it's hard.)</li>
+        <li>More optimization, made repetitive commands in their own functions (basically made the code short and dense)</li>
+        <li>Updated website layout to reflect data from the README file (because no one will probably visit it)</li>
+        <li>Made in line with <a href="https://github.com/standard/standard">JavaScript Standard Style</a> because, I mean, it's cool following a standard!</li>
+      </ul>
+      <h2>License</h2>
+      <p>Distributed under the MIT License. Visit <a href="https://github.com/xyr11/xtrike-bot/blob/main/LICENSE">github.com/xyr11/xtrike-bot/blob/main/LICENSE</a> for more information.</p>
+
+      <h2>Acknowledgements</h2>
+      <ul>
+      <li><a href="https://repl.it">Replit</a> for the bot hosting</li>
+      <li><a href="https://uptimerobot.com/api/">UptimeRobot API</a> for data fetching</li>
+      <li><a href="https://twitter.com/IsKHubDown">@IsKHubDown</a> for the original idea</li>
+      </ul>
+		</main>
+		<aside>
+			<!-- Twitter timeline embed -->
+			<div class="updates">
+				<h1>Twitter</h1>
+				<div class="twt">
+					<a class="twitter-timeline" id="twt" data-dnt="true" href="https://twitter.com/IsKHubSlow?ref_src=twsrc%5Etfw" data-align="center" data-height="500" data-chrome="noheader nofooter noborders">Visit @IsKHubSlow on Twitter</a>
+				</div>
+			</div>
+		</aside>
+		<footer>
+			<p> © 2021 by <a class="def" href="https://xyr.codes/contact">Xyrus Kurt Roldan</a>
+			• <a href="https://xyr.codes">Website</a>
+			• <a href="https://github.com/xyr11/iskhubslow">GitHub</a>
+			• <a href="https://twitter.com/xy_rus">Twitter</a>
+			</p>
+			<p class="right"><span id="emote">🕑</span> Last updated <span id="lastUpdated">a while ago</span></p>
+		</footer>
+		<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+		<script>
+			console.log('Hi! Welcome to the source code of this website!')
+
+			setInterval(function() { window.location.reload(); }, 600000); // reload page every 10 mins
+
+			// Last updated
+			var h = new Date()
+			var hr = h.getHours()
+			var label = "am"
+			if (hr > 12) { hr -= 12 }
+      if (hr === 0) { hr = "00" }
+      if (hr > 11) { label = "pm" }
+			var min = h.getMinutes()
+			if (min < 10) { min = "0" + min }
+			var sec = h.getSeconds()
+			if (sec < 10) { sec = "0" + sec }
+			document.getElementById("lastUpdated").innerHTML = hr + ":" + min + ":" + sec + " " + label
+
+			// Change clock emote based on current time
+			var d = h.getHours() * 60 + h.getMinutes()
+			if (d > 720) { d -= 720 }
+			var emojis = ['🕛','🕧','🕐','🕜','🕑','🕝','🕒','🕞','🕓','🕟','🕔','🕠','🕕','🕡','🕖','🕢','🕗','🕣','🕘','🕤','🕙','🕥','🕚','🕦']
+			document.getElementById("emote").innerHTML = emojis[23];
+			for (var i = 0; i < 24; i++) {
+				var k = 30 * i
+				if (k >= d) { document.getElementById("emote").innerHTML = emojis[i-1]; break	}
+			}
+
+			// Dark mode!
+			if (window.matchMedia("(prefers-color-scheme:dark)").matches) {
+				document.getElementById("twt").setAttribute("data-theme", "dark");
+			}
+			window.matchMedia("(prefers-color-scheme: dark)") // automatic check
+			.addEventListener("change", (e) => {
+				if (e.matches) document.getElementById("twt").setAttribute("data-theme", "dark")
+				else document.getElementById("twt").setAttribute("data-theme", "light")
+			});
+		</script>
+	</body>
+</html>

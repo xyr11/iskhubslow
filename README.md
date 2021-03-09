@@ -1,6 +1,6 @@
 ![License](https://img.shields.io/github/license/xyr11/iskhubslow?color=blue&style=flat-square)
 ![Bot status](https://img.shields.io/uptimerobot/status/m787049497-77105a43774c3d08e2afb952?style=flat-square)
-![Uptime ratio](https://img.shields.io/uptimerobot/ratio/7/m787049497-77105a43774c3d08e2afb952?label=uptime%20ratio&style=flat-square) 
+![Uptime ratio](https://img.shields.io/uptimerobot/ratio/7/m787049497-77105a43774c3d08e2afb952?label=bot%20uptime&style=flat-square) 
 ![Twitter](https://img.shields.io/twitter/follow/IsKHubSlow?color=blue&style=flat-square)
 
 <br />
@@ -8,7 +8,7 @@
   <a href="https://github.com/xyr11/iskhubslow">
     <img src="https://pbs.twimg.com/profile_images/1367016062143721475/h9Ph5OWl_400x400.png" alt="@IsKHubSlow profile picture" title="@IsKHubSlow profile picture" width="120" height="120" style="border-radius:50%">
   </a>
-  <h3 align="center"><a href="https://twitter.com/IsKHubSlow/" style="color:inherit">IsKHubSlow<sup>beta</sup></a></h3>
+  <h3 align="center"><a href="https://twitter.com/IsKHubSlow/" style="color:inherit">IsKHubSlow<sup>Beta</sup></a></h3>
   <p align="center">
     A bot that checks if KHub is slow and tweets it.
     <br />
@@ -16,7 +16,7 @@
     ·
     <a href="https://github.com/xyr11/iskhubslow/issues">Report Bug</a>
     ·
-    <a href="https://iskhubslow.xyr11.repl.co/">Website (beta)</a>
+    <a href="https://iskhubslow.xyr11.repl.co/">Website</a>
   </p>
 </p>
 <br />
@@ -38,6 +38,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
+    <li><a href="#changelogs">Changelogs</a></li>
     <li><a href="#development-status">Development status</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#author">Author</a></li>
@@ -46,12 +47,12 @@
 </details>
 
 # About the Project
-IsKHubSlow is a bot that checks if KHub is slow based on its response time and tweets it, inspired by the idea of [@IsKHubDown](https://twitter.com/IsKHubDown "@IsKHubDown") on Twitter. Open-sourced here on GitHub!
+IsKHubSlow is a bot that checks if KHub is slow based on its response time and tweets it, inspired by the idea of [@IsKHubDown](https://twitter.com/IsKHubDown "@IsKHubDown") on Twitter. Open-sourced here on GitHub! (Not affiliated to KHub or PSHS.)
 
 ## Planned Features
 For starters, here's what I *plan* to do:
 - Request data from an API that checks for response times
-- Determines if current response time is slow using historical data
+- Determines if current response time is slow using historical data and statistics
 - Condense information and tweets the results
 - I also tweet routinely every 4 hours about current statuses of KHub
 
@@ -121,6 +122,19 @@ I'm temporarily using Replit's database for the storage of the bot, so the code 
    ```
 -->
 
+# Changelogs
+
+## Beta 0.2 
++ Fixed bug that wrongly placed `newData[i]` rather than `newData[0]` and other variable declaration problems that I didn't review much because I'm trying to speedrun finishing Beta 0.1
++ More robust code for determining if KHub is 'slow' by outliers and a bunch of statistics-related terms nobody cares about
++ An insane amount of brain wracking and code editing for the part that deletes outliers when it detects that the current response time is too small and far away (it's hard.)
++ More optimization, made repetitive commands in their own functions (basically made the code short and dense)
++ Updated website layout to reflect data from this README file (because no one will probably visit this)
++ Made in line with [JavaScript Standard Style](https://github.com/standard/standard) because, I mean, it's cool following a standard!
+
+## Beta 0.1
++ Finally a version that can stay up 24/7 without major errors, can store stuff in a database, can read and detect stuff, basically the basic functions of the bot! (except, of course, it's very VERY buggy.)
+
 # Development status
 Status | Description
 :---: | ---
@@ -133,7 +147,6 @@ Status | Description
 
 # Author
 Xyrus Kurt Roldan
-+ Website: [XYR.codes](https://xyr.codes/)
 + Twitter: [@xy_rus](https://twitter.com/xy_rus)
 + Project link: https://github.com/xyr11/iskhubslow
 

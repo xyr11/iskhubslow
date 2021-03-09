@@ -12,12 +12,11 @@ app.use(bodyParser.json())
 
 dotenv.config()
 
+const db = new Database()
+
 const uptimerobotKey = 'ur1193341-6572cf68c41bac3ba466f3b5' // uptime robot read-only key
 const dbMaxSize = 1000 // max 5MB (5,000,000 bytes) per value, ~10 bytes per response time, 5,000,000 / 10 = 500,000
 
-const db = new Database()
-
-const routineCheck = 5 * 60 // routine tweets every n seconds
 const khubNames = ['BRC', 'CARC', 'CBZRC', 'CLC', 'CMC', 'CRC', 'CVC', 'CVisC', 'EVC', 'IRC', 'MC', 'MRC', 'SMC', 'SRC', 'WVC', 'ZRC']
 const khubIds = [787225660, 787225654, 787225658, 787225655, 787225666, 787225672, 787225653, 787225662, 787225665, 787225651, 787225656, 787225659, 787225667, 787225671, 787225661, 787225674]
 const khubReg = [8, 2, 4, 13, 6, 16, 3, 10, 11, 1, 5, 7, 14, 15, 9, 12] // sort by region
@@ -33,10 +32,15 @@ let status = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
  * 9 - service unavailable: lack of fetched data
  */
 
-const jsonOutput = {
-  message: 'Hey there, young fellow. Glad to see you here. We\'re no strangers to love, you know the rules and so do I. A full commitment\'s what I\'m thinking of, you wouldn\'t get this from any other guy, I just wanna tell you how I\'m feeling, gotta make you understand... Never gonna give you up, never gonna let you down, never gonna run around and desert you; Never gonna make you cry, never gonna say goodbye, never gonna tell a lie and hurt you.',
+let jsonOutput = {
+  message: "Hi! Glad to see you here. We're no strangers to love, you know the rules and so do I. A full commitment's what I'm thinking of, you wouldn't get this from any other guy, I just wanna tell you how I'm feeling, gotta make you understand... Never gonna give you up, never gonna let you down, never gonna run around and desert you; Never gonna make you cry, never gonna say goodbye, never gonna tell a lie and hurt you (lmao get rickrolled)",
   khub: []
 }
+// db.get('jsonOutput').then(value => { // get value at db if there are any
+//   if (value) {
+//     // jsonOutput = JSON.parse(value)
+//   }
+// }).catch(console.error)
 
 // function that tweets to our bot account
 const T = new Twit({ consumer_key: process.env.TWIT_APIKEY, consumer_secret: process.env.TWIT_APISECRET, access_token: process.env.TWIT_ACCTOKEN, access_token_secret: process.env.TWIT_ACCSECRET })
@@ -46,20 +50,20 @@ const tweet = tweetTxt => T.post('statuses/update', { status: tweetTxt }, functi
 })
 
 // convert to timezone
-const convertTZ = (date, tzString) => {
+const tz = (date, tzString = 'Asia/Manila') => {
   return new Date((typeof date === 'string' ? new Date(date) : date).toLocaleString('en-US', { timeZone: tzString }))
 }
 
 // time string: Jan 01 01:01am
 const m = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const add0 = number => {
-  return number < 10 ? '0' + number : number
+  return (number < 10 ? '0' + number : number) === '00' ? '12' : number < 10 ? '0' + number : number
 }
-const timeStr = dt => {
+const tStr = dt => {
   return m[dt.getMonth()] + ' ' + add0(dt.getDate()) + ' ' + (dt.getHours() > 12 ? add0(dt.getHours() - 12) : add0(dt.getHours())) + ':' + add0(dt.getMinutes()) + (dt.getHours() > 12 ? 'pm' : 'am')
 }
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)) // sleep() to simulate blocking because nodejs is asynchronous
+// const sleep = ms => new Promise(resolve => setTimeout(resolve, ms)) // sleep() to simulate blocking because nodejs is asynchronous
 
 // simple function that gets data from uptimerobot api
 const options = {
@@ -82,6 +86,16 @@ function isError (khubId, errorDescription) {
   status[x] = 8
   console.log(`Error: ${khubNames[x]} khub (id ${khubIds[x]}) ${errorDescription}`)
   return 0
+}
+
+// function that rounds to different numbers
+// for example, if roundTo = 10, it will output 10, 20, 30, 40, ...
+// and if roundTo = 25, output will be: 25, 50, 75, 100, ...
+const round = (number, roundTo, operation = 'floor') => {
+  // there are only 3 valid operations, if passed an invalid operation, it will return default operation which is 'floor'
+  if (operation === 'ceil') return Math.ceil(number / roundTo) * roundTo
+  else if (operation === 'round') return Math.round(number / roundTo) * roundTo
+  else return Math.floor(number / roundTo) * roundTo
 }
 
 // filter response time data
@@ -124,15 +138,15 @@ async function main () {
       let newData = fetched[i]
       response[i] = newData[0]
 
-      if (!dbData || dbData.length < 20) {
+      if (!dbData || dbData.length < 10) {
         status[i] = 8
-        console.log(`🔴 ${khubNames[i]} KHub #${i} too few data in database [${timeStr(convertTZ(d, 'Asia/Manila'))}] ⚠️`)
-        newData.splice(0,1) // remove current response time
+        console.log(`🔴 ${khubNames[i]} KHub #${i} too few data in database [${tStr(tz(d))}] ⚠️`)
+        newData.splice(0, 1) // remove current response time
         await db.set(`khubdb${i}`, newData).catch(console.error) // save to db
         dbData = newData
       } else if (!newData) {
         status[i] = 9
-        console.log(`🔴 ${khubNames[i]} KHub #${i} too few data fetched [${timeStr(convertTZ(d, 'Asia/Manila'))}] ⚠️`)
+        console.log(`🔴 ${khubNames[i]} KHub #${i} too few data fetched [${tStr(tz(d))}] ⚠️`)
         newData = []
       } else if (dbData.length > dbMaxSize - 1) {
         dbData.splice(dbMaxSize, dbData.length) // check if database has more data than dbMaxSize (so that we won't blow our memory)
@@ -140,30 +154,27 @@ async function main () {
 
       // check for new response times
       if (dbData[0] !== response[i]) {
-        // console.log(`⭐  Detected new response times for ${khubNames[i]} KHub (${timeStr(convertTZ(d, 'Asia/Manila'))})`) // for testing
+        // console.log(`⭐  Detected new response times for ${khubNames[i]} KHub (${tStr(tz(d))})`) // for testing
 
         const sd = Math.floor(await jStat.stdev(dbData, true))
         const p50 = Math.floor(await jStat.percentile(dbData, 0.5))
-        const upperLimit = Math.ceil((p50 + sd) / 10) * 10 // round to tens place
-        const lowerLimit = Math.ceil((p50 - sd) / 10) * 10 // round to tens place
+        const upperLimit = round(p50 + sd, 25, 'ceil') // round to tens place
+        const lowerLimit = round(p50 - sd, 25) // round to tens place
         const mean = Math.floor(await jStat.mean(dbData))
 
-        if (Math.ceil(response[i] / 10) * 10 > upperLimit && status[i] !== 2) {
+        // check if response time is greater than upperlimit
+        if (round(response[i], 25) > upperLimit && status[i] !== 2) {
           status[i] = 2
-          // await tweet(`⚠️ ${khubNames[i]} KHub is slow [@ ${timeStr(convertTZ(d, 'Asia/Manila'))}] 🔴 \n\n(heyy plz dont believe in me yet lol i'm still on beta)`)
-          // for testing
-          console.log(`🔴 ${khubNames[i]} KHub #${i} is slow: ~${Math.floor(response[i] / 10) * 10 }ms [@ ${timeStr(convertTZ(d, 'Asia/Manila'))}] ⚠️`)
-          console.log(`Normal: ≤${upperLimit} | Response time: ${response[i]} ms \n`)
+          tweet(`🔴 ${khubNames[i]} KHub is slow! [@ ${tStr(tz(d))}] ⚠️ \n\nCurrent response time: ${response[i]} ms`)
+          console.log(`🔴 ${khubNames[i]} KHub is slow! [@ ${tStr(tz(d))}] ⚠️`)
+          console.log(`Normal: ≤${upperLimit} | lowerlimit - sd ${lowerLimit - sd} | Mean: ${mean} | Response time: ${response[i]} ms \n`)
         }
 
-        if (Math.ceil(response[i] / 10) * 10 < upperLimit && status[i] === 2) {
+        // check if response time is less than upperlimit
+        if (round(response[i], 25) < lowerLimit - sd && round(response[i], 25) < mean) {
           status[i] = 1
-          // await tweet(`👌 ${khubNames[i]} KHub isn't slow anymore! [@ ${timeStr(convertTZ(d, 'Asia/Manila'))}] 🟢 \n\n(hey, i'm still on beta! idk what im talking about)`)
-          console.log(`🟢 ${khubNames[i]} KHub #${i} isn't slow anymore! [@ ${timeStr(convertTZ(d, 'Asia/Manila'))}] 👌 \n`) // for testing
-        }
-        if (newData[i] < lowerLimit + sd && newData[i] < mean) {
-          status[i] = 1
-          // fix dataset
+          // delete outliers when it detects that the current response time is too far away from (lowerLimit - sd)
+          console.log('before:', dbData)
           let dbDataFixed = []
           for (let j = 0; j < dbData.length; j++) {
             if (dbData[j] < lowerLimit + sd && dbData[j] < mean) {
@@ -171,8 +182,14 @@ async function main () {
             }
           }
           dbData = dbDataFixed
-          // await tweet(`👌 ${khubNames[i]} KHub isn't slow anymore! [@ ${timeStr(convertTZ(d, 'Asia/Manila'))}] 🟢 \n\n(heyy pls dont believe in me yet lol i'm still on beta)`)
-          console.log(`🟢 ${khubNames[i]} KHub #${i} isn't slow anymore! [@ ${timeStr(convertTZ(d, 'Asia/Manila'))}] 👌 \n`) // for testing
+          console.log('after:', dbData)
+          tweet(`🟢 ${khubNames[i]} KHub is now okay! [@ ${tStr(tz(d))}] 👌 \n\nAverage response time: ${lowerLimit}-${upperLimit} ms`)
+          console.log(`Detected that response time (${round(response[i], 25)} ms) is lower than ${lowerLimit - sd}, database values that is bigger than this has been filtered out (lowerlimit: ${lowerLimit}, sd: ${sd})`)
+          console.log(`🟢 ${khubNames[i]} KHub is now okay! [@ ${tStr(tz(d))}] 👌 \n\nAverage response time: ${lowerLimit}-${upperLimit} ms`)
+        } else if (round(response[i], 25) < upperLimit && status[i] === 2) {
+          status[i] = 1
+          tweet(`🟢 ${khubNames[i]} KHub is now okay! [@ ${tStr(tz(d))}] 👌 \n\nAverage response time: ${lowerLimit}-${upperLimit} ms`)
+          console.log(`🟢 ${khubNames[i]} KHub is now okay! [@ ${tStr(tz(d))}] 👌 \n\nAverage response time: ${lowerLimit}-${upperLimit} ms`)
         }
 
         // add new response time to database
@@ -185,25 +202,19 @@ async function main () {
         // save data to database
         if (status[i] !== 9) {
           await db.set(`khubdb${i}`, dbData).catch(console.error)
-        } 
+        }
 
         // update jsonOutput
         jsonOutput.khub[i] = {
           name: khubNames[i],
           latest_response_time: response[i],
-          average_response_time: await jStat.mean(dbData),
+          average_response_time: p50,
           status: status[i],
           date: d.getTime(),
           reg: khubReg[i]
         }
-
         // save jsonOutput var so that it doesn't get reset when bot is restarting
-        // await db.set('jsonOutput', JSON.stringify([jsonOutput])).catch(console.error)
-        // await db.get('jsonOutput').then(value => {
-        //   if (!value || value !== jsonOutput) {
-        //     db.set('jsonOutput', JSON.stringify(jsonOutput))
-        //   }
-        // }).catch(console.error)
+        await db.set('jsonOutput', JSON.stringify(jsonOutput)).catch(console.error)
       }
 
       if (status[i] === 9) {
@@ -215,10 +226,10 @@ async function main () {
   }
 }
 
-setInterval(main, 8000)
+setInterval(main, 10000)
 
 // routine check
-/* let count = 0
+/* const routineCheck = 5 * 60 // routine tweets every n seconds
 setInterval(async function () {
   // count
   await db.get('routineCount')
@@ -244,10 +255,12 @@ setInterval(async function () {
   //console.log("Current time:",timeStr)
 
   // test tweet ;)
-  count++
-  await db.set('routineCount', count)
-  //tweet(`${timeStr}\n\n\n${utility.rckrll[count%utility.rckrll.length-1]}`)
+  //tweet('')
 }, 1000) */
+
+// debug stuff
+db.list().then(keys => { console.log(keys) })
+db.get('jsonOutput').then(value => { console.log(JSON.stringify(value), '\njsonOutput:', JSON.stringify(jsonOutput)) })
 
 // server
 
@@ -256,33 +269,28 @@ for (let i = 0; i < khubIds.length; i++) {
   app.get(`/db${i}`, async (req, res) => {
     res.type('json')
     res.set('title', `${khubNames[i]} KHub DB | IsKHubSlow Raw JSON`)
-    await db.get(`khubdb${i}`).then(value => { res.end(JSON.stringify(value)) })
+    await db.get(`khubdb${i}`).then(value => { res.end(JSON.stringify(value)) }).catch(console.error)
   })
 }
 
-// for /json, return the live state of the uptimerobot
+// for /uptimerobot, return the live state of the uptimerobot
 app.get('/uptimerobot', async (req, res) => {
   res.type('json')
   res.set('title', 'UptimeRobot API | IsKHubSlow Raw JSON')
-  await getData().then(fetchedData => { res.end(JSON.stringify(fetchedData)) })
+  await getData().then(fetchedData => { res.end(JSON.stringify(fetchedData)) }).catch(console.error)
 })
 
-// /data for front-end
+// /data for json
 app.get('/data', async (req, res) => {
   res.type('json')
-  await db.get('jsonOutput').then(val => {
-    res.end(JSON.stringify(val))
-  }).catch(console.error)
-  // res.end(JSON.stringify(jsonOutput))
+  // await db.get('jsonOutput').then(val => { res.end(val) }).catch(console.error)
+  res.end(JSON.stringify(jsonOutput))
 })
 
-db.getAll().then(val => {
-  console.log(JSON.stringify(val))
+app.get('/db', async (req, res) => {
+  res.type('json')
+  await db.list().then(keys => { res.end(JSON.stringify(keys)) })
 })
-// app.get('/db', async (req, res) => {
-//   res.type('json')
-//   res.end(JSON.stringify(await db.getAll()))
-// })
 
 // server front-end
 app.get('/', (req, res) => {
