@@ -1,149 +1,102 @@
-![License](https://img.shields.io/github/license/xyr11/iskhubslow?color=blue&style=flat-square)
-![Bot status](https://img.shields.io/uptimerobot/status/m787049497-77105a43774c3d08e2afb952?style=flat-square)
-![Uptime ratio](https://img.shields.io/uptimerobot/ratio/7/m787049497-77105a43774c3d08e2afb952?label=bot%20uptime&style=flat-square) 
-![Twitter](https://img.shields.io/twitter/follow/IsKHubSlow?color=blue&style=flat-square)
-
 <br />
 <p align="center">
   <a href="https://github.com/xyr11/iskhubslow">
-    <img src="https://pbs.twimg.com/profile_images/1367016062143721475/h9Ph5OWl_400x400.png" alt="@IsKHubSlow profile picture" title="@IsKHubSlow profile picture" width="120" height="120" style="border-radius:50%">
+    <img src="https://raw.githubusercontent.com/xyr11/iskhubslow/api-changes/images/icon-large.png" alt="IsKHubSlow icon" title="@IsKHubSlow profile picture" width="120" height="120">
   </a>
-  <h3 align="center"><a href="https://twitter.com/IsKHubSlow/" style="color:inherit">IsKHubSlow<sup>Beta</sup></a></h3>
+  <h3 align="center">IsKHubSlow API (under development)</h3>
   <p align="center">
-    A bot that checks if KHub is slow and tweets it.
-    <br />
-    <a href="https://twitter.com/IsKHubSlow/">See it LIVE!</a>
-    ·
-    <a href="https://github.com/xyr11/iskhubslow/issues">Report Bug</a>
-    ·
-    <a href="https://iskhubslow.xyr11.repl.co/">Website</a>
+    Check whether any of the KHubs are slow
+  </p>
+  <p align="center">
+    <a href="https://github.com/xyr11/iskhubslow"><img src="https://img.shields.io/uptimerobot/status/m787049497-77105a43774c3d08e2afb952?style=flat-square"></a> <a href="https://github.com/xyr11/iskhubslow"><img src="https://img.shields.io/uptimerobot/ratio/7/m787049497-77105a43774c3d08e2afb952?label=Uptime%20%287%20days%29&style=flat-square"></a> <a href="https://twitter.com/IsKHubSlow"><img src="https://img.shields.io/twitter/follow/IsKHubSlow?color=blue&style=flat-square"></a>
   </p>
 </p>
 <br />
 
 <details open="open">
   <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About the Project</a>
-      <ul>
-        <li><a href="#planned-features">Planned Features</a></li>
-        <li><a href="#built-with">Build With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#changelogs">Changelogs</a></li>
-    <li><a href="#development-status">Development status</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#author">Author</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
-  </ol>
+
+1. [About the API](#about-the-api)
+   + [Features](#features)
+   + [Build With](#built-with)
+2. [Getting Started](#getting-started)
+   <!--
+   + [Prerequisites](#prerequisites)
+   + [Usage](#usage)
+     + [Formats](#formats)
+     + [Options](#options)
+     + [Sample Code](#sample-code)
+   -->
+4. [Changelogs](#changelogs)
+5. [Author](#author)
+6. [License](#license)
+7. [Acknowledgements](#acknowledgements)
+
 </details>
 
-# About the Project
-IsKHubSlow is a bot that checks if KHub is slow based on its response time and tweets it, inspired by the idea of [@IsKHubDown](https://twitter.com/IsKHubDown "@IsKHubDown") on Twitter. Open-sourced here on GitHub! (Not affiliated to KHub or PSHS.)
+# About the API
+The IsKHubSlow API fetches the current response times of all the Pisay KHubs (see list below) and determines if they are slow based on current and past data. This project is NOT associated with PSHS and Moodle. Official Twitter: [@IsKHubSlow](https://twitter.com/IsKHubSlow)
 
-## Planned Features
-For starters, here's what I *plan* to do:
-- Request data from an API that checks for response times
-- Determines if current response time is slow using historical data and statistics
-- Condense information and tweets the results
-- I also tweet routinely every 4 hours about current statuses of KHub
+List of KHubs included: [BRC](https://khub.brc.pshs.edu.ph/), [CARC](https://khub.carc.pshs.edu.ph/), [CBZRC](https://khub.cbzrc.pshs.edu.ph/), [CLC](https://khub.clc.pshs.edu.ph), [CMC](https://khub.cmc.pshs.edu.ph/), [CRC](https://khub.crc.pshs.edu.ph/), [CVC](https://khub.cvc.pshs.edu.ph/), [CVisC](https://khub.cvisc.pshs.edu.ph/), [EVC](https://khub.evc.pshs.edu.ph/), [IRC](https://khub.irc.pshs.edu.ph/), [MC](https://khub.mc.pshs.edu.ph/), [MRC](https://khub.mrc.pshs.edu.ph/), [SMC](https://khub.smc.pshs.edu.ph/), [SRC](https://khub.src.pshs.edu.ph/), [WVC](https://khub.wvc.pshs.edu.ph/), [ZRC](https://khub.zrc.pshs.edu.ph/) <span style="font-size:10px">(yes i visited all of them, and not to be biased but the ones that look better are the CLC, CRC, IRC, and MC KHubs)</span>
+
+## Features
+- Request data from UptimeRobot API that checks for response times
+- Determines if current response time is slow using historical data and an algorithm
+- Returns data on a specified endpoint as an API
 
 ## Built With
 + Node.js
-+ Twitter API v2
 + UptimeRobot API
-+  Replit database
++ Replit database
 
 # Getting Started
 
-## Prerequisites
-+ Twitter Developer account (you can apply for one [here](https://developer.twitter.com/en/apply-for-access.html))
-+ A Twitter developer app, which can be created in your Twitter developer account.
-+ "Read and Write" permissions to your app (Project Settings > App permissions)
-+ Your `API key`, `API key secret`, `Access token`, and `Access token secret` from your app in the [Twitter developer portal](https://developer.twitter.com/en/docs/developer-portal/overview)
-+ [Node.js](https://nodejs.org/en/download/)
-+ npm (This is automatically installed with Node)
-
-Note: I'm temporarily using Replit's database for the storage of the bot, so the code only works in a Replit environment.
-
-<details id="twitter-bot-instructions">
-  <summary>Click for detailed instructions relating to all things Twitter bot account related</summary>
-  <ol>
-    <li>Create a new Twitter account</li>
-    <li>Go to <a href="https://developer.twitter.com/en/application">https://developer.twitter.com/en/application</a> and apply for a developer account by following the instructions given</li>
-    <li>Go to the Developer dashboard at <a href="https://developer.twitter.com/en/portal/dashboard">https://developer.twitter.com/en/portal/dashboard</a> and create a project. When you create a project, you should also be able to create an app.</li>
-    <li>Go to the app that you created and go to its app settings. Go to "App permissions", click edit, and choose "Read and Write" so that your account will be able to 'write' tweets. Press "Save".</li>
-    <li>Go back to the app settings and navigate to the "Keys and tokens" part (below your app name).
-      <ul>
-        <li>Press "Regenerate" on the "API key &amp; secret" part and copy your <code>API key</code> and <code>API key secret</code> values.</li>
-        <li>Press "Generate" on the "Access token &amp; secret" part and copy your <code>Access token</code> and <code>Access token secret</code> values.</li>
-      </ul>
-    </li>
-  </ol>
-</details>
-
-## Installation
-I'm temporarily using Replit's database for the storage of the bot, so the code only works in a Replit environment. An installation guide will be available after I switch for a better database
+This API is currently under development and you cannot fetch anything yet.
 
 <!--
-1. Clone the repository 
-   ```
-   git clone https://github.com/xyr11/iskhubslow
-   ```
-2. Install NPM packages
-   ```
-   npm install
-   ```
-3. Add a new file called `.env` and add this inside:
-   ```
-   TWIT_APIKEY=your-api-key
-   TWIT_APISECRET=your-api-key-secret
-   TWIT_ACCTOKEN=your-access-token
-   TWIT_ACCSECRET=your-access-secret
-   ```
-   for example:
-   ```
-   TWIT_APIKEY=AbCdEfGhIjKlMnOpQrStUvWxY
-   TWIT_APISECRET=AbCdEfGhIjKlMnOpQrStUvWxYzAbCdEfGhIjKlMnOpQrStUvWx
-   TWIT_ACCTOKEN=0123456789012345678-AbCdEfGhIjKlMnOpQrStUvWxYzAbCd
-   TWIT_ACCSECRET=AbCdEfGhIjKlMnOpQrStUvWxYzAbCdEfGhIjKlMnOpQrS
-   ```
-4. Get the bot up and running!
-   ```
-   npm start
-   ```
+GREETINGS, INTELLECTUAL READER. THIS TEXT IS HIDDEN FOR REGULAR PEOPLE TO SEE BECAUSE THE TEXT HERE IS JUST A ROUGH GUIDE, AND NOTHING HAS BEEN IMPLEMENTED YET. PROCEED WITH CAUTION.
+
+## Prerequisites
++ Javascript or any other languages that support fetching from a URL
+
+## Usage
+
+### Formats
+Responses are currently served in JSON only, but this may change in the future.
+
+### Options
+#### campus *[Required]*
+(array) A valid PSHS campus acronym, regardless of capitalization. Example: `['MC']` for a single campus and `['CVC', 'CVISC']` for multiple campuses
+
+---
+#### isslow *[Default is true]*
+(boolean) Whether to display current status of each KHubs as either "normal", "slow", or "down"
+
+---
+#### past *[Default is 0]*
+(integer) Return the past respone times (in ms) of each KHubs up to the specified number. Max is 256. Returned items may be fewer than expected because of lack of data.
+
+---
+#### current *[Default is true]*
+(boolean) Whether to show the current response time of each KHubs (in ms)
+
+### Sample Code
+Node.js Requests:
+```js
+// URL: https://iskhubslow.xyr11.repl.co/api
+var options = {
+  campus: ['brc', 'cvc', 'mc'],
+  past: 10
+}
+
+// ??????? idk what next
+```
 -->
 
 # Changelogs
 
-## Beta 0.2 
-+ Fixed bug that wrongly placed `newData[i]` rather than `newData[0]` and other variable declaration problems that I didn't review much because I'm trying to speedrun finishing Beta 0.1
-+ More robust code for determining if KHub is 'slow' by outliers and a bunch of statistics-related terms nobody cares about
-+ An insane amount of brain wracking and code editing for the part that deletes outliers when it detects that the current response time is too small and far away (it's hard.)
-+ More optimization, made repetitive commands in their own functions (basically made the code short and dense)
-+ Updated website layout to reflect data from this README file (because no one will probably visit this)
-+ Made in line with [JavaScript Standard Style](https://github.com/standard/standard) because, I mean, it's cool following a standard!
-
-## Beta 0.1
-+ Finally a version that can stay up 24/7 without major errors, can store stuff in a database, can read and detect stuff, basically the basic functions of the bot! (except, of course, it's very VERY buggy.)
-
-# Development status
-Status | Description
-:---: | ---
-✅ | Start the project, figuring out a plan on how to do it, pick essential modules
-✅ | Build system that receives data, stores in database, tweets in certain times
-✅ | How to figure out if the response time is above "average", condense the results, error mitigation, automation system
-🟡 | Beta period, run the code, debug if there are any errors, ask for feedback, repeat
-❌ | v1 launch, replit hosting, better database system
-❌ | Version that can be run locally anywhere
+## May 2021 Rewrite
+Complete rewrite of the repo, separating the Twitter bot and making the API stand-alone
 
 # Author
 Xyrus Kurt Roldan
@@ -151,9 +104,9 @@ Xyrus Kurt Roldan
 + Project link: https://github.com/xyr11/iskhubslow
 
 # License
-Distributed under the MIT License. See [`LICENSE`](https://github.com/xyr11/xtrike-bot/blob/main/LICENSE) for more information.
+Distributed under the MIT License. See [LICENSE](https://github.com/xyr11/xtrike-bot/blob/main/LICENSE) for more information.
 
 # Acknowledgements
-+ [Replit](https://repl.it) for the bot hosting
++ [Replit](https://repl.it) for the API hosting and database
 + [UptimeRobot API](https://uptimerobot.com/api/) for data fetching
 + [@IsKHubDown](https://twitter.com/IsKHubDown) for the original idea
